@@ -2,7 +2,7 @@ package com.bgpark.game.math.service;
 
 import com.bgpark.game.api.math.Math;
 import com.bgpark.game.api.math.MathService;
-import com.bgpark.game.api.math.dto.RandomService;
+import com.bgpark.game.api.math.RandomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

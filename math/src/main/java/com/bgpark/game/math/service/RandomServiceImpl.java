@@ -1,6 +1,6 @@
 package com.bgpark.game.math.service;
 
-import com.bgpark.game.api.math.dto.RandomService;
+import com.bgpark.game.api.math.RandomService;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -13,6 +13,6 @@ public class RandomServiceImpl implements RandomService {
 
     @Override
     public int generateNumber() {
-        return new Random().nextInt((MAX_NUMBER - MIN_NUMBER + 1) + MIN_NUMBER);
+        return new Random().nextInt((MAX_NUMBER - MIN_NUMBER + 1))  + MIN_NUMBER;
     }
 }

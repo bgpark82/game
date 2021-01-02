@@ -1,6 +1,7 @@
 package com.bgpark.game.math.controller;
 
 import com.bgpark.game.api.math.Answer;
+import com.bgpark.game.api.math.AnswerDto;
 import com.bgpark.game.api.math.AnswerService;
 import com.bgpark.game.api.math.Math;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,57 +32,53 @@ class AnswerControllerTest {
     @MockBean
     private AnswerService answerService;
 
-    private ObjectMapper mapper;
+    private JacksonTester<AnswerDto.Create> jacksonCreate;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
-        mapper = new ObjectMapper();
+        JacksonTester.initFields(this, new ObjectMapper());
     }
 
     @Test
     void getAnswer() throws Exception {
 
-        Answer answer = new Answer(150, new Math(10, 15), "bgpark");
-        String answerString = mapper.writeValueAsString(answer);
+        AnswerDto.Create answerDto = new AnswerDto.Create(150, "bgpark", 10, 15);
+        String request = jacksonCreate.write(answerDto).getJson();
 
         mvc.perform(post("/math/answer")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(answerString))
+                .content(request))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getAnswerId() throws Exception {
+    void getAnswerFalse() throws Exception {
 
-        Answer answer = new Answer(150, new Math(10, 15), "bgpark");
-        String answerString = mapper.writeValueAsString(answer);
+        AnswerDto.Create answerDto = new AnswerDto.Create(150, "bgpark", 10, 100);
+        String request = jacksonCreate.write(answerDto).getJson();
 
-        given(answerService.getAnswer(any())).willReturn(answer);
+        given(answerService.getAnswer(any())).willReturn(false);
 
         mvc.perform(post("/math/answer")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(answerString))
+                .content(request))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.answer").value(150))
-                .andExpect(jsonPath("$.data.username").value("bgpark"));
+                .andExpect(jsonPath("$.data").value(false));
     }
 
     @Test
     void getAnswerTrue() throws Exception {
 
-        Answer answer = new Answer(150, new Math(10, 15), "bgpark");
-        answer.isCorrect(150);
-        String answerString = mapper.writeValueAsString(answer);
+        AnswerDto.Create answerDto = new AnswerDto.Create(150, "bgpark", 10, 15);
+        String request = jacksonCreate.write(answerDto).getJson();
 
-        given(answerService.getAnswer(any())).willReturn(answer);
+        given(answerService.getAnswer(any())).willReturn(true);
 
         mvc.perform(post("/math/answer")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(answerString))
+                .content(request))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.answer").value(150))
-                .andExpect(jsonPath("$.data.username").value("bgpark"))
-                .andExpect(jsonPath("$.data.correct").value(true));
+                .andExpect(jsonPath("$.data").value(true));
     }
 }

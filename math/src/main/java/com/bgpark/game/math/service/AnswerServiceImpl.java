@@ -3,30 +3,36 @@ package com.bgpark.game.math.service;
 import com.bgpark.game.api.math.Answer;
 import com.bgpark.game.api.math.AnswerRepository;
 import com.bgpark.game.api.math.AnswerService;
-import com.bgpark.game.api.math.dto.AnswerDto;
-import com.bgpark.game.math.util.CalculatorUtil;
+import com.bgpark.game.math.event.AnswerApi;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AnswerServiceImpl implements AnswerService {
 
-    private final CalculatorUtil calculatorUtil;
+    private final AnswerApi answerApi;
     private final AnswerRepository answerRepository;
 
     @Override
-    public Answer getAnswer(AnswerDto.Create request) {
+    public boolean getAnswer(Answer answer) {
 
-        int factorA = request.getFactorA();
-        int factorB = request.getFactorB();
-        int result = calculatorUtil.multiplication(factorA, factorB);
+        answer.setCorrect();
+        Answer savedAnswer = answerRepository.save(answer);
 
-        Answer entity = request.toEntity();
-        entity.isCorrect(result);
+        try {
+            answerApi.sendScore(savedAnswer.getUsername(), savedAnswer.getId(), savedAnswer.isCorrect());
+        } catch (HttpClientErrorException ex) {
+            switch(ex.getStatusCode()) {
+                case NOT_FOUND:
+                    log.debug("Fail to send score to server: Not Found");
+                    throw new RuntimeException("Not Found!");
+            }
+        }
 
-        Answer savedAnswer = answerRepository.save(entity);
-
-        return savedAnswer;
+        return answer.isCorrect();
     }
 }

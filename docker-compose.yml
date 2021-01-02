@@ -1,0 +1,10 @@
+version: '3'
+services:
+  math:
+    build: math
+    ports:
+      - '7001:7001'
+  score:
+    build: score
+    ports:
+      - '7002:7002'

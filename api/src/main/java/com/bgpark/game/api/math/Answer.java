@@ -28,7 +28,9 @@ public class Answer {
         this.username = username;
     }
 
-    public void isCorrect(int result) {
-        correct = (result == answer);
+    public void setCorrect() {
+        correct = answer == math.getFactorA() * math.getFactorB();
     }
+
+
 }

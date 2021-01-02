@@ -1,12 +1,12 @@
-package com.bgpark.game.api.math.dto;
+package com.bgpark.game.api.math;
 
-import com.bgpark.game.api.math.Answer;
-import com.bgpark.game.api.math.Math;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 public class AnswerDto {
 
     @Data
+    @AllArgsConstructor
     public static class Create {
 
         private int answer;

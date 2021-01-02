@@ -2,7 +2,7 @@ package com.bgpark.game.math.controller;
 
 import com.bgpark.game.api.math.Answer;
 import com.bgpark.game.api.math.AnswerService;
-import com.bgpark.game.api.math.dto.AnswerDto;
+import com.bgpark.game.api.math.AnswerDto;
 import com.bgpark.game.api.util.NetworkUtil;
 import com.bgpark.game.api.util.Response;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +20,12 @@ public class AnswerController {
     private final NetworkUtil networkUtil;
 
     @PostMapping("/math/answer")
-    public Response<Answer> getAnswer(@RequestBody AnswerDto.Create request) {
+    public Response<Boolean> getAnswer(@RequestBody AnswerDto.Create request) {
         log.debug("Answer from the client: {}", request);
 
-        Answer answer = answerService.getAnswer(request);
+        boolean correct = answerService.getAnswer(request.toEntity());
         String address = networkUtil.getAddress();
-        return Response.ok(answer, address);
+        return Response.ok(correct, address);
     }
 }
 

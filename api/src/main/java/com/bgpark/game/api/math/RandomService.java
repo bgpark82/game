@@ -1,4 +1,4 @@
-package com.bgpark.game.api.math.dto;
+package com.bgpark.game.api.math;
 
 public interface RandomService {
 

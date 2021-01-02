@@ -2,7 +2,7 @@ bootJar { enabled = false }
 jar { enabled = true }
 
 dependencies {
-
+    implementation "com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.6.1"  // 쿼리의 실제 파라미터 보여주기
 }
 
 
