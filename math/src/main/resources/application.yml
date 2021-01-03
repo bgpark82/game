@@ -18,10 +18,14 @@ spring.datasource.password:
 spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 
 ---
+
 spring:
   profiles: docker
 
+server:
+  port: 7001
+
 app:
   score:
-    host: score
+    host: localhost
     port: 7002
