@@ -1,7 +1,16 @@
-language: generic
+language: java
+jdk:
+  - openjdk8
 
 services:
   - docker
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.gradle'
+
+script: "./gradlew clean build"
 
 after_success:
   - docker build -t bgpark82/game-math -f ./math/Dockerfile .
