@@ -1,0 +1,13 @@
+language: generic
+
+services:
+  - docker
+
+after_success:
+  - docker build -t bgpark82/game-math -f ./math/Dockerfile .
+  - docker build -t bgpark82/game-score -f ./score/Dockerfile .
+
+  - echo $DOCKER_PASSWORD | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push bgpark82/game-math
+  - docker push bgpark82/game-score
