@@ -29,3 +29,5 @@ app:
   score:
     host: localhost
     port: 7002
+
+
