@@ -18,3 +18,10 @@ services:
       - '7002:7002'
     environment:
       SPRING_PROFILES_ACTIVE: docker
+
+  eureka-server:
+    image: bgpark82/game-eureka-server
+    build: eureka-server
+    mem_limit: 350m
+    ports:
+      - '8761:8761'
