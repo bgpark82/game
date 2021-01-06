@@ -30,6 +30,7 @@ phases:
       - echo Building the Docker image on `date`...
       - ./gradlew clean build
       - pwd
+      - ls -al
       - docker build -f ./math/Dockerfile -t $MATH_IMAGE_URI .
       - docker build -f ./score/Dockerfile -t $SCORE_IMAGE_URI .
       - docker build -f ./eureka/Dockerfile -t $EUREKA_IMAGE_URI .
