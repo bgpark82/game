@@ -28,7 +28,7 @@ phases:
     commands:
       # docker image build
       - echo Building the Docker image on `date`...
-      - gradlew clean build
+      - ./gradlew clean build
       - docker build -f math -t $MATH_IMAGE_URI .
       - docker build -f score -t $SCORE_IMAGE_URI .
       - docker build -f eureka -t $EUREKA_IMAGE_URI .
