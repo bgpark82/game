@@ -31,6 +31,8 @@ phases:
       - ./gradlew clean build
       - pwd
       - ls -al
+      - ls -al math
+      - ls -al math/build/libs
       - docker build -f ./math/Dockerfile -t $MATH_IMAGE_URI .
       - docker build -f ./score/Dockerfile -t $SCORE_IMAGE_URI .
       - docker build -f ./eureka/Dockerfile -t $EUREKA_IMAGE_URI .
