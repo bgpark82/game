@@ -3,6 +3,5 @@ WORKDIR app
 EXPOSE 7001
 RUN pwd
 RUN ls -al
-COPY * /
-RUN ls -al
+COPY ./ ./
 CMD ["java","-jar","app.jar"]
