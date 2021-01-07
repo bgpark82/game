@@ -1,0 +1,25 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+zuul:
+  routes:
+    math:
+      path: /math/**
+      url: http://localhost:7001/math
+    score:
+      path: /score/**
+      url: http://localhost:7002/score
+
+# ribbon과 eureka를 아직 도입하기 전
+ribbon:
+  eureka:
+    enabled: false

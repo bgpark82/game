@@ -3,4 +3,5 @@ include 'api'
 include 'math'
 include 'score'
 include 'eureka-server'
+include 'gateway'
 

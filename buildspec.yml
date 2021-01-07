@@ -19,23 +19,22 @@ phases:
       - echo $ECR_REPOSITORY_MATH_URI  # 012345678910.dkr.ecr.us-west-2.amazonaws.com/hello-world
       - echo $ECR_REPOSITORY_SCORE_URI  # 012345678910.dkr.ecr.us-west-2.amazonaws.com/hello-world
       - echo $ECR_REPOSITORY_EUREKA_URI  # 012345678910.dkr.ecr.us-west-2.amazonaws.com/hello-world
+      - echo $ECR_REPOSITORY_GATEWAY_URI  # 085853160041.dkr.ecr.ap-northeast-2.amazonaws.com/game-gateway
       - echo $TAG                         # 15ef8ba
       - MATH_IMAGE_URI=${ECR_REPOSITORY_MATH_URI}:${TAG}
       - SCORE_IMAGE_URI=${ECR_REPOSITORY_SCORE_URI}:${TAG}
       - EUREKA_IMAGE_URI=${ECR_REPOSITORY_EUREKA_URI}:${TAG}
+      - GATEWAY_IMAGE_URI=${ECR_REPOSITORY_GATEWAY_URI}:${TAG}
 
   build:
     commands:
       # docker image build
       - echo Building the Docker image on `date`...
       - ./gradlew clean build
-      - pwd
-      - ls -al
-      - ls -al math
-      - ls -al math/build/libs
       - docker build -f ./math/Dockerfile -t $MATH_IMAGE_URI .
       - docker build -f ./score/Dockerfile -t $SCORE_IMAGE_URI .
       - docker build -f ./eureka-server/Dockerfile -t $EUREKA_IMAGE_URI .
+      - docker build -f ./gateway/Dockerfile -t $GATEWAY_IMAGE_URI .
 
   post_build:
     commands:
@@ -44,10 +43,11 @@ phases:
       - docker push ${MATH_IMAGE_URI}
       - docker push ${SCORE_IMAGE_URI}
       - docker push ${EUREKA_IMAGE_URI}
+      - docker push ${GATEWAY_IMAGE_URI}
 
       # imagedefinition.json 생성
       - echo Writing image definitions file...
-      - printf '[{"name":"%s","imageUri":"%s"},{"name":"%s","imageUri":"%s"},{"name":"%s","imageUri":"%s"}]' $MATH_CONTAINER_NAME $MATH_IMAGE_URI $SCORE_CONTAINER_NAME $SCORE_IMAGE_URI $EUREKA_CONTAINER_NAME $EUREKA_IMAGE_URI > imagedefinitions.json
+      - printf '[{"name":"%s","imageUri":"%s"},{"name":"%s","imageUri":"%s"},{"name":"%s","imageUri":"%s"},{"name":"%s","imageUri":"%s"}]' $MATH_CONTAINER_NAME $MATH_IMAGE_URI $SCORE_CONTAINER_NAME $SCORE_IMAGE_URI $EUREKA_CONTAINER_NAME $EUREKA_IMAGE_URI $GATEWAY_CONTAINER_NAME $GATEWAY_IMAGE_URI > imagedefinitions.json
 
 artifacts:
   files: imagedefinitions.json

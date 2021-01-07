@@ -3,8 +3,32 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: "arn:aws:ecs:us-east-1:183686979203:task-definition/aws-hello-world-rest-api:1"
+        TaskDefinition: "arn:aws:ecs:ap-northeast-2:085853160041:task-definition/game-math:12"
         LoadBalancerInfo:
-          ContainerName: "aws-hello-world-rest-api"
+          ContainerName: "game-math"
+          ContainerPort: "7001"
+        PlatformVersion: "LATEST"
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-northeast-2:085853160041:task-definition/game-math:12"
+        LoadBalancerInfo:
+          ContainerName: "game-score"
+          ContainerPort: "7002"
+        PlatformVersion: "LATEST"
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-northeast-2:085853160041:task-definition/game-math:12"
+        LoadBalancerInfo:
+          ContainerName: "game-eureka-server"
+          ContainerPort: "8761"
+        PlatformVersion: "LATEST"
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: "arn:aws:ecs:ap-northeast-2:085853160041:task-definition/game-math:12"
+        LoadBalancerInfo:
+          ContainerName: "game-gateway"
           ContainerPort: "80"
         PlatformVersion: "LATEST"
