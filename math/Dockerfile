@@ -3,5 +3,5 @@ WORKDIR app
 EXPOSE 7001
 RUN pwd
 RUN ls -al
-COPY ./ ./
+COPY ./math/build/libs/*.jar app.jar
 CMD ["java","-jar","app.jar"]
