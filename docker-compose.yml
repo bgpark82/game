@@ -3,7 +3,9 @@ services:
 
   math:
     image: bgpark82/game-math
-    build: math
+    build:
+      context: .
+      dockerfile: ./math/Dockerfile
     mem_limit: 350m
     ports:
       - '7001:7001'
@@ -12,7 +14,9 @@ services:
 
   score:
     image: bgpark82/game-score
-    build: score
+    build:
+      context: .
+      dockerfile: ./score/Dockerfile
     mem_limit: 350m
     ports:
       - '7002:7002'
@@ -21,7 +25,9 @@ services:
 
   eureka-server:
     image: bgpark82/game-eureka-server
-    build: eureka-server
+    build:
+      context: .
+      dockerfile: ./eureka-server/Dockerfile
     mem_limit: 350m
     ports:
       - '8761:8761'
