@@ -10,7 +10,7 @@ services:
     ports:
       - '7001:7001'
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: local
 
   score:
     image: bgpark82/game-score
@@ -21,7 +21,7 @@ services:
     ports:
       - '7002:7002'
     environment:
-      SPRING_PROFILES_ACTIVE: docker
+      SPRING_PROFILES_ACTIVE: local
 
   eureka-server:
     image: bgpark82/game-eureka-server
