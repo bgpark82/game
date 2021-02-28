@@ -1,0 +1,26 @@
+const palette = {
+     gray0: '#f9fafb',
+     gray1: '#f2f4f6',
+     gray2: '#e5e8eb',
+     gray3: '#d1d6db',
+     gray4: '#b0b8c1',
+     gray5: '#8b95a1',
+     gray6: '#6b7684',
+     gray7: '#4e5968',
+     gray8: '#333d4b',
+     gray9: '#191f28',
+     blue0: '#e8f3ff',
+     blue1: '#c9e2ff',
+     blue2: '#90c2ff',
+     blue3: '#64a8ff',
+     blue4: '#4593fc',
+     blue5: '#3182f6',
+     blue6: '#2272eb',
+     blue7: '#1b64da',
+     blue8: '#1957c2',
+     blue9: '#194aa6',
+     white: '#fff',
+     black: '#000',
+}
+
+export default palette;

@@ -1,0 +1,7 @@
+body, * {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    letter-spacing: -0.8px;
+    word-spacing: 2px;
+}
