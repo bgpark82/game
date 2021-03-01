@@ -47,6 +47,7 @@ function useTodos() {
     },[todo, todos])
 
     const onRemoveTodo = useCallback((id) => {
+        if(!confirm("삭제하시겠습니까?")) return;
         setTodos(todos
             .filter(todo => todo.id !== id));
     },[todo, todos])
