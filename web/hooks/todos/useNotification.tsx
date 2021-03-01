@@ -23,6 +23,9 @@ function useNotification({todo}) {
             second: 0,
         })
         const diff = end.diff(now)
+        console.log(now)
+        console.log(end)
+        console.log(diff)
 
         setTimeout(() => {
             new Notification("times up!", {
@@ -33,7 +36,7 @@ function useNotification({todo}) {
                 dir: "ltr",
                 tag: "group1"
             });
-            alarm( text);
+            alarm(text);
         },diff)
     }
 
