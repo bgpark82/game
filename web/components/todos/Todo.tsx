@@ -3,6 +3,8 @@ import {RiCheckboxCircleFill} from "react-icons/ri";
 import styled from "@emotion/styled";
 import palette from "../../style/js/palette";
 import {css} from "@emotion/react";
+import { TiDeleteOutline } from 'react-icons/ti';
+
 
 const TodoStyle = styled.div<{done: boolean}>`
     display: flex;
@@ -56,7 +58,13 @@ const TodoToggleIcon = styled.div<{done: boolean}>`
 };
 `
 
-function Todo({todo, onToggleDone}) {
+const TodoDelete = styled.div`
+  color: ${palette.gray3};
+  font-size: 1.5rem;
+  cursor: pointer;
+`
+
+function Todo({todo, onToggleDone, onRemoveTodo}) {
     return (
         <TodoStyle key={todo.id} done={todo.done}>
             <TodoDateBox>
@@ -73,6 +81,9 @@ function Todo({todo, onToggleDone}) {
             <TodoText>
                 {todo.text}
             </TodoText>
+            <TodoDelete onClick={() => onRemoveTodo(todo.id)}>
+                <TiDeleteOutline/>
+            </TodoDelete>
         </TodoStyle>
     );
 }

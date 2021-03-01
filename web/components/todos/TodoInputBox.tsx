@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import palette from "../../style/js/palette";
 import Button from "../commons/Button";
 import TimeFormat from "../commons/TimeFormat";
+import {IoAlertCircleOutline} from "react-icons/io5";
 
 const InputBoxStyle = styled.form`   
     display: flex;
@@ -16,10 +17,16 @@ const InputBoxStyle = styled.form`
     color: ${palette.gray7};
 `
 
-const TimeBox = styled.div`
+const TimeContainer = styled.div`
   display: flex;
   align-items: baseline;
   font-size: 1rem;
+`
+
+const TimeBox = styled.div`
+  display: flex;
+  align-items: baseline;
+  position:relative;
   
 `
 
@@ -28,43 +35,75 @@ const TextBox = styled.div`
   gap: 0.5rem
 `
 
-function TodoInputBox({todo, onChangeTime, onChangeText, onSubmitTodo}) {
+const ErrorBox = styled.div`
+  display: flex;
+  gap: 0.25rem;
+  flex-direction: column;
+
+`
+
+const Error = styled.div`
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: ${palette.gray7};
+  display: flex;
+  align-items: center;
+  & span {
+    font-size: 1.1rem;
+    margin: 0 0.25rem 0 0;
+  }
+`
+
+const AmPm = styled.div`
+  position: absolute;
+  top: -.7rem;
+  font-size: 0.5rem;
+  color: ${palette.blue7};
+`
+
+function TodoInputBox({todo, errors, onChangeTime, onChangeText, onSubmitTodo}) {
 
     return (
         <InputBoxStyle onSubmit={onSubmitTodo}>
-            <TimeBox>
-                <Input
-                    placeholder="11"
-                    value={todo.time.start.hour}
-                    onChange={onChangeTime}
-                    prefix="start"
-                    name="hour"
-                />
-                <TimeFormat>:</TimeFormat>
-                <Input
-                    placeholder="30"
-                    value={todo.time.start.minute}
-                    onChange={onChangeTime}
-                    prefix="start"
-                    name="minute"
-                />
+            <TimeContainer>
+                <TimeBox>
+                    <AmPm>{todo.time.start.ampm}</AmPm>
+                    <Input
+                        placeholder="11"
+                        value={todo.time.start.hour}
+                        onChange={onChangeTime}
+                        prefix="start"
+                        name="hour"
+                    />
+                    <TimeFormat>:</TimeFormat>
+                    <Input
+                        placeholder="30"
+                        value={todo.time.start.minute}
+                        onChange={onChangeTime}
+                        prefix="start"
+                        name="minute"
+                    />
+                </TimeBox>
                 <TimeFormat>~</TimeFormat>
-                <Input
-                    placeholder="12"
-                    value={todo.time.end.hour}
-                    onChange={onChangeTime}
-                    prefix="end"
-                    name="hour"
-                />
-                <TimeFormat>:</TimeFormat>
-                <Input
-                    placeholder="50"
-                    value={todo.time.end.minute}
-                    onChange={onChangeTime}
-                    prefix="end"
-                    name="minute"
-                />
-            </TimeBox>
+                <TimeBox>
+                    <AmPm>{todo.time.end.ampm}</AmPm>
+                    <Input
+                        placeholder="12"
+                        value={todo.time.end.hour}
+                        onChange={onChangeTime}
+                        prefix="end"
+                        name="hour"
+                    />
+                    <TimeFormat>:</TimeFormat>
+                    <Input
+                        placeholder="50"
+                        value={todo.time.end.minute}
+                        onChange={onChangeTime}
+                        prefix="end"
+                        name="minute"
+                    />
+                </TimeBox>
+            </TimeContainer>
             <TextBox>
                 <Input
                     size="wide"
@@ -74,6 +113,14 @@ function TodoInputBox({todo, onChangeTime, onChangeText, onSubmitTodo}) {
                 />
                 <Button>저장하기</Button>
             </TextBox>
+            <ErrorBox>
+            {errors.length > 0 && errors.map(error => (
+                <Error>
+                    <span><IoAlertCircleOutline /></span>{error.message}
+                </Error>
+            ))}
+            </ErrorBox>
+
         </InputBoxStyle>
     );
 }

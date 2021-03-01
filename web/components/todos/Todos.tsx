@@ -11,11 +11,15 @@ const TodosStyle = styled.div`
 
 
 
-function Todos({todos, onToggleDone}) {
+function Todos({todos, onToggleDone, onRemoveTodo}) {
     return (
         <TodosStyle>
             {todos.map(todo => (
-                <Todo todo={todo} onToggleDone={onToggleDone}/>
+                <Todo
+                    todo={todo}
+                    onToggleDone={onToggleDone}
+                    onRemoveTodo={onRemoveTodo}
+                />
             ))}
         </TodosStyle>
     );
