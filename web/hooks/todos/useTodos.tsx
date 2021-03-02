@@ -37,7 +37,7 @@ function useTodos() {
         done:false,
     });
     const [todos, setTodos] = useState<Todo[]>([]);
-    const [setNotification] = useNotification({todo});
+    const [setNotification, removeNotification] = useNotification();
 
     const onToggleDone = useCallback((id) => {
         setTodos(todos
@@ -48,19 +48,19 @@ function useTodos() {
 
     const onRemoveTodo = useCallback((id) => {
         if(!confirm("삭제하시겠습니까?")) return;
-        setTodos(todos
-            .filter(todo => todo.id !== id));
+        setTodos(todos.filter(todo => todo.id !== id));
+        removeNotification(id)
     },[todo, todos])
 
     const onSubmitTodo = useCallback((e) => {
         e.preventDefault();
         if(hasErrors()) return;
-
-        setTodos([...todos, {
+        const newTodo = {
             ...todo,
             id: Date.now()
-        }])
-        setNotification();
+        }
+        setTodos([...todos, newTodo])
+        setNotification(newTodo);
     },[todo,todos,errors]);
 
     const onChangeTime = useCallback((e) => {

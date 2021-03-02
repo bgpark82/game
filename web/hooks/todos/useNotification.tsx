@@ -1,8 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import moment from "moment";
 import {toast} from "react-toastify";
 
-function useNotification({todo}) {
+interface ITimeout {
+    id: number,
+    timeout: NodeJS.Timeout
+}
+
+function useNotification() {
+    const timeoutRef = useRef<ITimeout[]>([])
+
     useEffect(() => {
         if (!("Notification" in window)) {
             console.log("지원하지 않는 브라우저입니다");
@@ -13,7 +20,7 @@ function useNotification({todo}) {
         }
     },[])
 
-    const setNotification = () => {
+    const setNotification = (todo) => {
         const text = todo.text;
         const {hour, minute} = todo.time.end;
         const now = moment();
@@ -27,17 +34,28 @@ function useNotification({todo}) {
         console.log(end)
         console.log(diff)
 
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
             new Notification("times up!", {
                 body: "😩 아니, " + text + " 아직 안했단 말이야??",
-                icon: "🚀",
-                data: "이건 뭐야??",
                 silent: false,
                 dir: "ltr",
-                tag: "group1"
             });
             alarm(text);
+            removeNotification(todo.id);
         },diff)
+
+        timeoutRef.current.push({
+            id: todo.id,
+            timeout: timeout
+        })
+    }
+
+    const removeNotification = (id) => {
+        timeoutRef.current = timeoutRef.current.filter(timeout => timeout.id != id);
+        const over = timeoutRef.current.find(timeout => timeout.id == id);
+        if(over) {
+            clearTimeout(over.timeout);
+        }
     }
 
     const alarm = ( text) => toast("😩 아니, " + text + " 아직 안했단 말이야??",{
@@ -45,7 +63,7 @@ function useNotification({todo}) {
         type:toast.TYPE.DARK
     });
 
-    return [setNotification, ]
+    return [setNotification, removeNotification]
 }
 
 export default useNotification;
